@@ -1,6 +1,9 @@
 from torchvision.utils import make_grid , save_image
 import numpy as np
 import matplotlib.pyplot as plt
+import torch
+import torch.nn as nn
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 def show_and_save(file_name,img):
