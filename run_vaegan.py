@@ -31,10 +31,10 @@ config = {
     }
 }
 
-# Create the TensorBoard log directory
-log_dir = config['logging_params']['save_dir']
-if not os.path.exists(log_dir):
-    os.makedirs(log_dir)
+# # Create the TensorBoard log directory
+# log_dir = config['logging_params']['save_dir']
+# if not os.path.exists(log_dir):
+#     os.makedirs(log_dir)
 
 # Initialize TensorBoard writer
 writer = SummaryWriter('runs/vae_gan_1')
