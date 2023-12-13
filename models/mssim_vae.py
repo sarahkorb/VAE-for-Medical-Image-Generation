@@ -1,9 +1,11 @@
 import torch
 from torch import nn
 from torch.nn import functional as F
-from .types_ import *
 from math import exp
 from abc import abstractmethod
+from typing import List, Callable, Union, Any, TypeVar, Tuple
+
+Tensor = TypeVar('Tensor')
 
 #Define base class for VAE
 class BaseVAE(nn.Module):

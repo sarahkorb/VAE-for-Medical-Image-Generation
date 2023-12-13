@@ -1,8 +1,10 @@
 import torch
 from torch import nn
 from torch.nn import functional as F
-from .types_ import *
 from abc import abstractmethod
+from typing import List, Callable, Union, Any, TypeVar, Tuple
+
+Tensor = TypeVar('Tensor')
 
 #Define base class for VAE
 class BaseVAE(nn.Module):
@@ -45,7 +47,8 @@ class VanillaVAE(BaseVAE):
 
         modules = []
         if hidden_dims is None:
-            hidden_dims = [32, 64, 128, 256, 512]
+            # hidden_dims = [32, 64, 128, 256, 256, 512, 512]
+            hidden_dims = [32, 64, 128, 256, 512, 512]
 
         # Build Encoder
         for h_dim in hidden_dims:
@@ -107,13 +110,19 @@ class VanillaVAE(BaseVAE):
         :param input: (Tensor) Input tensor to encoder [N x C x H x W]
         :return: (Tensor) List of latent codes
         """
+        # print(f"input shape: {input.shape}")
         result = self.encoder(input)
+        # print(f"before flatten: {result.shape}")
+
         result = torch.flatten(result, start_dim=1)
+        # print(f"after flatten: {result.shape}")
 
         # Split the result into mu and var components
         # of the latent Gaussian distribution
         mu = self.fc_mu(result)
         log_var = self.fc_var(result)
+        # print(f"mu shape: {mu.shape}")
+        # print(f"log_var shape: {log_var.shape}")
 
         return [mu, log_var]
 
@@ -124,10 +133,12 @@ class VanillaVAE(BaseVAE):
         :param z: (Tensor) [B x D]
         :return: (Tensor) [B x C x H x W]
         """
+        # print(f"z: {z.shape}")
         result = self.decoder_input(z)
         result = result.view(-1, 512, 2, 2)
         result = self.decoder(result)
         result = self.final_layer(result)
+        # print(f"final result shape: {result.shape}")
         return result
 
     def reparameterize(self, mu: Tensor, logvar: Tensor) -> Tensor:
