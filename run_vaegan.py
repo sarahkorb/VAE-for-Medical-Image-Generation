@@ -37,7 +37,7 @@ config = {
 #     os.makedirs(log_dir)
 
 # Initialize TensorBoard writer
-writer = SummaryWriter('runs/vae_gan_1')
+# writer = SummaryWriter('runs/vae_gan_1')
 
 def validate_model(val_loader, gen, discrim, criterion, device, gamma):
     gen.eval()
