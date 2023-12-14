@@ -7,7 +7,7 @@ This project used code from the [PyTorch-VAE repository](https://github.com/Anti
 # Example Generations
 ### Training Images
 <!-- ![Training Examples](./examples.png) -->
-<img src='./examples.png' style="width: 50%"></img>
+<img src='./examples.png' style="width: 75%"></img>
 
 ### Generated Images
 ![Generated Images](./Prostate_VAEGAN.png)
