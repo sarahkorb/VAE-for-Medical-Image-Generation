@@ -14,3 +14,4 @@ matplotlib
 pandas
 medmnist>=2.2.3
 tqdm
+tensorboard
