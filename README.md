@@ -5,13 +5,13 @@ This is a repository for a research project by Duke students Teo Feliu, Maximili
 This project used code from the [PyTorch-VAE repository](https://github.com/AntixK/PyTorch-VAE) and the [VAE-GAN-PYTORCH repository](https://github.com/rishabhd786/VAE-GAN-PYTORCH). 
 
 # Example Generations
-## Training Images
+### Training Images
 <!-- ![Training Examples](./examples.png) -->
 <img src='./examples.png' style="width: 50%"></img>
 
-## Generated Images
-<!-- ![Generated Images](./Prostate_VAEGAN.png) -->
-<img src="./Prostate_VAEGAN.png" style="width: 50%"></img>
+### Generated Images
+![Generated Images](./Prostate_VAEGAN.png)
+<!-- <img src="./Prostate_VAEGAN.png" style="width: 50%"></img> -->
 
 
 # Abstract
