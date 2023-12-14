@@ -13,8 +13,8 @@ existing data.
 <!-- ![Training Examples](./examples.png) -->
 <!-- <img src='./examples.png' style="width: 75%"></img> -->
 <!-- ![Generated Images](./Prostate_VAEGAN.png) -->
-<div style="text-align: center">
-    <img src="./Prostate_VAEGAN.png" style="width: 50%"></img>
+<div style="text-align: center;">
+    <img src="./Prostate_VAEGAN.png" style="width: 50%; margin-left: auto; margin-right: auto;">
 </div>
 
 
