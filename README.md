@@ -10,7 +10,7 @@ existing data.
 
 # Usage
 ## Data Preparation
-If using the ([Prostate Gleason Dataset](https://github.com/MicheleDamian/prostate-gleason-dataset/tree/master)) dataset, download it into /Data directory. All MedMNIST images will be downloaded automatically. 
+If using the [Prostate Gleason Dataset](https://github.com/MicheleDamian/prostate-gleason-dataset/tree/master) dataset, download it into /Data directory. All MedMNIST images will be downloaded automatically. 
 ## Install Requirements
 'pip install -r requirements.txt'
 ## Run Model
