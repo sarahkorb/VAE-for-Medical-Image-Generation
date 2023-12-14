@@ -3,34 +3,9 @@ from torch import nn
 from torch.nn import functional as F
 from abc import abstractmethod
 from typing import List, Callable, Union, Any, TypeVar, Tuple
+from models.base_vae import BaseVAE
 
 Tensor = TypeVar('Tensor')
-
-#Define base class for VAE
-class BaseVAE(nn.Module):
-    
-    def __init__(self) -> None:
-        super(BaseVAE, self).__init__()
-
-    def encode(self, input: Tensor) -> List[Tensor]:
-        raise NotImplementedError
-
-    def decode(self, input: Tensor) -> Any:
-        raise NotImplementedError
-
-    def sample(self, batch_size:int, current_device: int, **kwargs) -> Tensor:
-        raise NotImplementedError
-
-    def generate(self, x: Tensor, **kwargs) -> Tensor:
-        raise NotImplementedError
-
-    @abstractmethod
-    def forward(self, *inputs: Tensor) -> Tensor:
-        pass
-
-    @abstractmethod
-    def loss_function(self, *inputs: Any, **kwargs) -> Tensor:
-        pass
 
 #Define vanilla VAE class
 class VanillaVAE(BaseVAE):
@@ -48,7 +23,7 @@ class VanillaVAE(BaseVAE):
         modules = []
         if hidden_dims is None:
             # hidden_dims = [32, 64, 128, 256, 256, 512, 512]
-            hidden_dims = [32, 64, 128, 256, 512, 512]
+            hidden_dims = [32, 64, 128, 256, 512,]
 
         # Build Encoder
         for h_dim in hidden_dims:

@@ -1,0 +1,16 @@
+# pytorch-lightning==1.5.6
+pytorch-lightning==1.9.5
+PyYAML==6.0
+# tensorboard>=2.2.0
+tensorboard==2.11.2
+# torch>=1.6.1
+torch==1.13.1
+torchtext==0.14.1
+torchsummary==1.5.1
+# torchvision>=0.10.1
+torchvision==0.14.1
+torchaudio==0.13.1
+matplotlib
+pandas
+medmnist>=2.2.3
+tqdm

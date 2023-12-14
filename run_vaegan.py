@@ -188,12 +188,12 @@ for epoch in range(epochs):
 
 
     # Log losses to TensorBoard
-    writer.add_scalar('Loss/GAN', gan_loss.item(), epoch * len(data_loader) + i)
-    writer.add_scalar('Loss/Prior', prior_loss.item(), epoch * len(data_loader) + i)
-    writer.add_scalar('Loss/Reconstruction', rec_loss.item(), epoch * len(data_loader) + i)
-    writer.add_scalar('Loss/Discriminator_Real', errD_real.item(), epoch * len(data_loader) + i)
-    writer.add_scalar('Loss/Discriminator_Fake', errD_rec_enc.item(), epoch * len(data_loader) + i)
-    writer.add_scalar('Loss/Discriminator_Prior', errD_rec_noise.item(), epoch * len(data_loader) + i)
+    # writer.add_scalar('Loss/GAN', gan_loss.item(), epoch * len(data_loader) + i)
+    # writer.add_scalar('Loss/Prior', prior_loss.item(), epoch * len(data_loader) + i)
+    # writer.add_scalar('Loss/Reconstruction', rec_loss.item(), epoch * len(data_loader) + i)
+    # writer.add_scalar('Loss/Discriminator_Real', errD_real.item(), epoch * len(data_loader) + i)
+    # writer.add_scalar('Loss/Discriminator_Fake', errD_rec_enc.item(), epoch * len(data_loader) + i)
+    # writer.add_scalar('Loss/Discriminator_Prior', errD_rec_noise.item(), epoch * len(data_loader) + i)
 
     # Update the progress bar
     progress_bar.update(1)
@@ -201,9 +201,9 @@ for epoch in range(epochs):
 
 
   val_gan_loss, val_rec_loss, val_prior_loss = validate_model(val_loader, gen, discrim, criterion, device, gamma)
-  writer.add_scalar('Val Loss/GAN', val_gan_loss, epoch)
-  writer.add_scalar('Val Loss/Reconstruction', val_rec_loss, epoch)
-  writer.add_scalar('Val Loss/Prior', val_prior_loss, epoch)
+#   writer.add_scalar('Val Loss/GAN', val_gan_loss, epoch)
+#   writer.add_scalar('Val Loss/Reconstruction', val_rec_loss, epoch)
+#   writer.add_scalar('Val Loss/Prior', val_prior_loss, epoch)
 
   b=gen(x_fixed)[2]
   b=b.detach()
@@ -212,7 +212,7 @@ for epoch in range(epochs):
   show_and_save('prostate_noise_epoch_%d' % epoch ,make_grid((c*0.5+0.5).cpu(),8))
   show_and_save('prostate_rec_epoch_%d' % epoch ,make_grid((b*0.5+0.5).cpu(),8))
 
-writer.close()
+# writer.close()
 plot_loss(prior_loss_list)
 plot_loss(recon_loss_list)
 plot_loss(gan_loss_list)
