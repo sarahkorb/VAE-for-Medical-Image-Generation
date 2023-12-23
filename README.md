@@ -14,12 +14,12 @@ existing data.
 
 # Usage
 ## Data Preparation
-If using the [Prostate Gleason Dataset](https://github.com/MicheleDamian/prostate-gleason-dataset/tree/master) dataset, download it into /Data directory. All MedMNIST images will be downloaded automatically. 
+If using the [Prostate Gleason Dataset](https://github.com/MicheleDamian/prostate-gleason-dataset/tree/master) dataset, download it into `/Data` directory. All MedMNIST images will be downloaded automatically. If you would like to train the VAE to generate images from a custom dataset, modify the `dataset.py` file to create a new Dataset class. You will find examples of other custom datasets classes in the file already.
 ## Install Requirements
 ```
 $ pip install -r requirements.txt
 ```
-## Run Model
+## Train VAE
 ### For Vanilla VAE and MSSIM VAE
 Change desired parameters in config dictionary in `run_reg_vaes.py` and specify desired model. Then run `$ python run_reg_vaes.py`
 ### For VAE-GAN
