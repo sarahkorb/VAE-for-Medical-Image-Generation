@@ -6,7 +6,7 @@ This project used code from the [PyTorch-VAE repository](https://github.com/Anti
 
 ![Example generation](./Prostate_VAEGAN.png)
 
-*Caption: Example generation of prostate images trained on the [Prostate Gleason Dataset](https://github.com/MicheleDamian/prostate-gleason-dataset/tree/master)
+*Caption: Example generation of prostate images trained on the [Prostate Gleason Dataset](https://github.com/MicheleDamian/prostate-gleason-dataset/tree/master)*
 
 # Abstract
 Variational Autoencoders (VAEs) (Kingma & Welling, 2022) are a deep generative model used to produce realistic synthetic data in the same theme as training data. Collecting data in a medical context can be a time consuming and expensive task, making it difficult to make predictive and interpretable machine learning models in medical contexts. VAEs can be used to improve the quality of medical image datasets, which may be of low resolution or contain lots of noise. We utilize several VAE variants in order to generate images from several medical datasets. We then train a generator to distinguish synthetic training data created by our VAEs from real medical data, similar to how Generative Adversarial Networks (GANs) work, in order to improve our images. We hope this method can be applied to generate synthetic medical images for real world use, and improve
