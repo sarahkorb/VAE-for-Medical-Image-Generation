@@ -16,9 +16,9 @@ existing data.
 ## Data Preparation
 If using the [Prostate Gleason Dataset](https://github.com/MicheleDamian/prostate-gleason-dataset/tree/master) dataset, download it into /Data directory. All MedMNIST images will be downloaded automatically. 
 ## Install Requirements
-'''
-$pip install -r requirements.txt
-'''
+```
+$ pip install -r requirements.txt
+```
 ## Run Model
 ### For Vanilla VAE and MSSIM VAE
 Change desired parameters in config dictionary in 'run_reg_vaes.py' and specify desired model. Then run 'python run_reg_vaes.py'
