@@ -24,3 +24,11 @@ $ pip install -r requirements.txt
 Change desired parameters in config dictionary in `run_reg_vaes.py` and specify desired model. Then run `$ python run_reg_vaes.py`
 ### For VAE-GAN
 Again, change desired parameters in config dictionary in `run_vaegan.py` and run `$ python run_vaegan.py`. 
+
+# Generated Images
+| Training Images | Reconstructed Images| Generated Images |
+|---------------|------------------|------------------|
+| ![Prostate Gleason images](training.png) | ![Reconstructed prostate images](Prostate_VAEGAN.png) | ![Reconstructed prostate images](Prostate_VAEGAN.png) |
+
+<!-- | ![Generated prostate images](URL-of-source-image-2) | ![Generated Image 2](URL-of-generated-image-2) |
+| ...           | ...              | -->
