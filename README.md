@@ -21,17 +21,6 @@ $ pip install -r requirements.txt
 ```
 ## Run Model
 ### For Vanilla VAE and MSSIM VAE
-Change desired parameters in config dictionary in 'run_reg_vaes.py' and specify desired model. Then run 'python run_reg_vaes.py'
+Change desired parameters in config dictionary in `run_reg_vaes.py` and specify desired model. Then run `$ python run_reg_vaes.py`
 ### For VAE-GAN
-Again, change desired parameters in config dictionary in 'run_vaegan.py' and run 'python run_vaegan.py'. 
-
-# Example Generations
-<!-- ### Training Images -->
-<!-- ![Training Examples](./examples.png) -->
-<!-- <img src='./examples.png' style="width: 75%"></img> -->
-<!-- ![Generated Images](./Prostate_VAEGAN.png) -->
-
-<img src="./Prostate_VAEGAN.png" style="width: 50%; margin-left: auto; margin-right: auto;">
-
-
-
+Again, change desired parameters in config dictionary in `run_vaegan.py` and run `$ python run_vaegan.py`. 
