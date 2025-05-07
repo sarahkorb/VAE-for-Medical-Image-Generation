@@ -9,7 +9,7 @@ torchtext==0.15.2
 torchsummary==1.5.1
 # torchvision>=0.10.1
 torchvision==0.15.2
-torchaudio==0.15.2
+torchaudio==2.0.2 
 matplotlib
 pandas
 medmnist>=2.2.3
