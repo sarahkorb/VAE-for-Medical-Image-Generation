@@ -39,7 +39,7 @@ config = {
             'manual_seed': 1265
         },
         'trainer_params': {
-            'max_epochs': 15 #changed!!
+            'max_epochs': 2 #changed!!
         },
         'logging_params': {
             'save_dir': "logs/",
