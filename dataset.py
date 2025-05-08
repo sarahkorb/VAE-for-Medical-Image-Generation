@@ -16,6 +16,11 @@ from torchvision import transforms
 from torch.utils.data import DataLoader
 from pytorch_lightning import LightningDataModule
 
+
+import random
+from torchvision import transforms
+import matplotlib.pyplot as plt
+
 # Add your custom dataset class here
 class MyDataset(Dataset):
     def __init__(self):
@@ -29,18 +34,33 @@ class MyDataset(Dataset):
         pass
 
 class FemaleChestXrayDataset(Dataset):
-    def __init__(self, data_path: str, split: str, transform: Optional[Callable] = None):
-        self.data_dir = Path(data_path) / "ChestXrays_Original"
+    def __init__(
+        self,
+        data_path: str,
+        split: str,
+        transform: Optional[Callable] = None,
+        finding_vocab: Optional[List[str]] = None
+    ):
+        self.data_dir = Path(data_path) / "ChestXrays"
+        self.images_dir = self.data_dir / "Images"
         self.transforms = transform
 
-        # Choose the correct split file
-        csv_path = self.data_dir / f"female_{split}.csv"
-        self.metadata = pd.read_csv(csv_path)
-        self.images_dir = self.data_dir / "images"
+        # Load the appropriate CSV: "female_train.csv" or "female_test.csv"
+        csv_file = f"female_{split}.csv"
+        self.metadata = pd.read_csv(self.data_dir / csv_file)
+
+        #Unique lables 
+        self.finding_vocab = finding_vocab or [
+            'Atelectasis', 'Cardiomegaly', 'Consolidation', 'Edema',
+            'Effusion', 'Emphysema', 'Fibrosis', 'Hernia', 'Infiltration',
+            'Mass', 'Nodule', 'Pleural_Thickening', 'Pneumonia',
+            'Pneumothorax', 'No Finding'
+        ]
+        self.finding_to_index = {label: i for i, label in enumerate(self.finding_vocab)}
 
     def __len__(self):
         return len(self.metadata)
-    
+
     def __getitem__(self, idx):
         row = self.metadata.iloc[idx]
         img_path = self.images_dir / row["Image Index"]
@@ -49,8 +69,14 @@ class FemaleChestXrayDataset(Dataset):
         if self.transforms:
             img = self.transforms(img)
 
-        # VAE doesn't need labels during training
-        return img
+        # Convert finding labels to multi-hot vector
+        findings = str(row["Finding Labels"]).split('|')
+        label_vec = torch.zeros(len(self.finding_vocab), dtype=torch.float32)
+        for f in findings:
+            if f in self.finding_to_index:
+                label_vec[self.finding_to_index[f]] = 1.0
+
+        return img, label_vec
 
 
 class MyCelebA(CelebA):
@@ -287,3 +313,36 @@ class VAEDataset(LightningDataModule):
             pin_memory=self.pin_memory,
         )
      
+
+### TESTINg:
+
+test_transform = transforms.Compose([
+    transforms.Resize((64, 64)),  # or your patch size
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.5], std=[0.5])
+])
+
+# Set up dataset
+dataset = FemaleChestXrayDataset(
+    data_path="Data",  # adjust path if needed
+    split="train",
+    transform=test_transform
+)
+
+# Pick a random index
+idx = random.randint(0, len(dataset) - 1)
+img_tensor, label_vec = dataset[idx]
+
+# Undo normalization for display
+unnorm_img = img_tensor * 0.5 + 0.5  # back to [0,1] range
+
+# Display image
+plt.imshow(unnorm_img.squeeze(), cmap='gray')
+plt.title(f"Condition vector: {label_vec.tolist()}")
+plt.axis('off')
+plt.show()
+
+# Print shape info
+print("Image shape:", img_tensor.shape)
+print("Condition vector:", label_vec)
+print("Nonzero labels:", torch.nonzero(label_vec).squeeze().tolist())
