@@ -81,7 +81,7 @@ config = {
     'CVAE': {
         'model_params': {
             'name': 'CVAE',
-            'in_channels': 3,
+            'in_channels': 1,
             'latent_dim': 128
         },
         'data_params': {
@@ -100,7 +100,7 @@ config = {
             'manual_seed': 1265
         },
         'trainer_params': {
-            'max_epochs': 10
+            'max_epochs': 3 #for now
         },
         'logging_params': {
             'save_dir': "logs/",
