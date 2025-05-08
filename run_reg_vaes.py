@@ -6,7 +6,9 @@ from pathlib import Path
 from models import *
 from models import vanilla_vae
 from models import mssim_vae
+from models import cvae
 from experiment import VAEXperiment
+from cond_experiment import CVAEXperiment
 import torch.backends.cudnn as cudnn
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
@@ -75,16 +77,47 @@ config = {
             'save_dir': "logs/",
             'name': "MSSIMVAE"      
         }
+        },
+    'CVAE': {
+        'model_params': {
+            'name': 'CVAE',
+            'in_channels': 3,
+            'latent_dim': 128
+        },
+        'data_params': {
+            'data_path': "Data/",
+            'train_batch_size': 64,
+            'val_batch_size':  64,
+            'patch_size': 64,
+            'data_name': 'femchestxrays',
+            'num_workers': 4,
+        },
+        'exp_params': {
+            'LR': 0.005,
+            'weight_decay': 0.0,
+            'scheduler_gamma': 0.95,
+            'kld_weight': 0.00025,
+            'manual_seed': 1265
+        },
+        'trainer_params': {
+            'max_epochs': 10
+        },
+        'logging_params': {
+            'save_dir': "logs/",
+            'name': "CVAE"      
+        }
         }
     }
 
 models = {
     'VanillaVAE': vanilla_vae.VanillaVAE,
-    'MSSIMVAE': mssim_vae.MSSIMVAE
+    'MSSIMVAE': mssim_vae.MSSIMVAE,
+    'CVAE': cvae.ConditionalVAE
 }
 
 #CHANGE MODEL TYPE HERE
-MODEL = 'VanillaVAE'
+# MODEL = 'VanillaVAE'
+MODEL = 'CVAE'
 
 # Initializing logger
 tb_logger =  TensorBoardLogger(save_dir=config[MODEL]['logging_params']['save_dir'],
@@ -94,8 +127,13 @@ tb_logger =  TensorBoardLogger(save_dir=config[MODEL]['logging_params']['save_di
 seed_everything(config[MODEL]['exp_params']['manual_seed'], True)
 
 model = models[config[MODEL]['model_params']['name']](**config[MODEL]['model_params'])
-experiment = VAEXperiment(model,
-                          config[MODEL]['exp_params'])
+
+if MODEL == 'CVAE':
+    experiment = CVAEXperiment(model,
+                            config[MODEL]['exp_params'])
+else:
+    experiment = VAEXperiment(model,
+                        config[MODEL]['exp_params'])
 
 # Setting up PyTorch Lightning Datamodule object
 data = VAEDataset(**config[MODEL]["data_params"], pin_memory=True)

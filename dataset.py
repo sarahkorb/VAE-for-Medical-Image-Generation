@@ -269,23 +269,48 @@ class VAEDataset(LightningDataModule):
             )
 #       ===============================================================
       # =========================  ChestMNIST =========================
-        if self.data_name == 'chestmnist':
+        # if self.data_name == 'chestmnist':
             
-            info = INFO['chestmnist']
-            DataClass = getattr(medmnist, info['python_class'])
+        #     info = INFO['chestmnist']
+        #     DataClass = getattr(medmnist, info['python_class'])
 
-            chest_transforms = transforms.Compose([
+        #     chest_transforms = transforms.Compose([
+        #         transforms.ToTensor(),
+        #         transforms.CenterCrop(28),
+        #         transforms.Resize(28),
+        #         transforms.Normalize(mean=[.5], std=[.5])
+        #     ])
+
+        #     self.train_dataset = DataClass(split='train', transform=chest_transforms, download=True)
+
+
+        #     self.val_dataset = DataClass(split='test', transform=chest_transforms, download=True)
+    #       ===============================================================
+      # =========================  female chestxrays =========================
+      # NEED TO ADD HERE/FIX?
+        if self.data_name == 'femchestxrays':
+
+            femchestxrays_transforms = transforms.Compose([
+                transforms.RandomHorizontalFlip(),
+                transforms.CenterCrop(self.patch_size),
+                transforms.Resize(self.patch_size),
                 transforms.ToTensor(),
-                transforms.CenterCrop(28),
-                transforms.Resize(28),
-                transforms.Normalize(mean=[.5], std=[.5])
+                transforms.Normalize((0.5),(0.5))
             ])
-
-            self.train_dataset = DataClass(split='train', transform=chest_transforms, download=True)
-
-
-            self.val_dataset = DataClass(split='test', transform=chest_transforms, download=True)
-
+            
+            # if stage == "train" or stage is None:
+            self.train_dataset = FemaleChestXrayDataset(
+                self.data_dir,
+                split='train',
+                transform=femchestxrays_transforms,
+            )
+            
+            # if stage == "val" or stage is None:
+            self.val_dataset = FemaleChestXrayDataset(
+                self.data_dir,
+                split='test',
+                transform=femchestxrays_transforms,
+            )
         
     def train_dataloader(self) -> DataLoader:
         return DataLoader(
