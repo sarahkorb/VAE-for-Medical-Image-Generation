@@ -28,6 +28,30 @@ class MyDataset(Dataset):
     def __getitem__(self, idx):
         pass
 
+class FemaleChestXrayDataset(Dataset):
+    def __init__(self, data_path: str, split: str, transform: Optional[Callable] = None):
+        self.data_dir = Path(data_path) / "ChestXrays_Original"
+        self.transforms = transform
+
+        # Choose the correct split file
+        csv_path = self.data_dir / f"female_{split}.csv"
+        self.metadata = pd.read_csv(csv_path)
+        self.images_dir = self.data_dir / "images"
+
+    def __len__(self):
+        return len(self.metadata)
+    
+    def __getitem__(self, idx):
+        row = self.metadata.iloc[idx]
+        img_path = self.images_dir / row["Image Index"]
+        img = default_loader(img_path)
+
+        if self.transforms:
+            img = self.transforms(img)
+
+        # VAE doesn't need labels during training
+        return img
+
 
 class MyCelebA(CelebA):
     """
