@@ -1,2 +1,4 @@
 # Ignore only the images folder inside ChestXrays
-Data/ChestXrays/images/
+/Data/ChestXrays_Original/images/
+/Data/ChestXrays_Original/images-20250508T203137Z-1-001.zip
+/Data/ChestXrays_Original/images-20250508T203137Z-1-002.zip
