@@ -10,8 +10,8 @@ from torchvision import transforms
 from torchvision.datasets import CelebA
 import zipfile
 import pandas as pd
-import medmnist
-from medmnist import INFO
+# import medmnist  #UNCOMMENT HERE IF NEEDED! 
+# from medmnist import INFO
 from torchvision import transforms
 from torch.utils.data import DataLoader
 from pytorch_lightning import LightningDataModule
@@ -41,8 +41,9 @@ class FemaleChestXrayDataset(Dataset):
         transform: Optional[Callable] = None,
         finding_vocab: Optional[List[str]] = None
     ):
-        self.data_dir = Path(data_path) / "ChestXrays"
-        self.images_dir = self.data_dir / "Images"
+        self.data_dir = Path(data_path) / "ChestXrays_Original"
+        self.images_dir = self.data_dir / "images"
+        
         self.transforms = transform
 
         # Load the appropriate CSV: "female_train.csv" or "female_test.csv"
@@ -314,35 +315,39 @@ class VAEDataset(LightningDataModule):
         )
      
 
-### TESTINg:
+### TESTING CHEST DATASET :
 
-test_transform = transforms.Compose([
-    transforms.Resize((64, 64)),  # or your patch size
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.5], std=[0.5])
-])
+# # Define transform
+# test_transform = transforms.Compose([
+#     transforms.Resize((64, 64)),
+#     transforms.ToTensor(),
+#     transforms.Normalize([0.5], [0.5])  # grayscale normalization
+# ])
 
-# Set up dataset
-dataset = FemaleChestXrayDataset(
-    data_path="Data",  # adjust path if needed
-    split="train",
-    transform=test_transform
-)
+# # Initialize dataset
+# dataset = FemaleChestXrayDataset(
+#     data_path="Data",   # path above ChestXrays_Original
+#     split="train",
+#     transform=test_transform
+# )
 
-# Pick a random index
-idx = random.randint(0, len(dataset) - 1)
-img_tensor, label_vec = dataset[idx]
+# # Test one sample (Selecitng one w/ multi label)
+# img, label_vec = dataset[7]
 
-# Undo normalization for display
-unnorm_img = img_tensor * 0.5 + 0.5  # back to [0,1] range
+# # Assume img is (C, H, W)
+# unnorm_img = img * 0.5 + 0.5  # unnormalize to [0,1]
+# # Convert to numpy format for matplotlib: (H, W, C)
+# img_np = unnorm_img.permute(1, 2, 0).numpy()
+# # If grayscale (C=1), squeeze the channel
+# if img_np.shape[-1] == 1:
+#     img_np = img_np.squeeze(-1)
 
-# Display image
-plt.imshow(unnorm_img.squeeze(), cmap='gray')
-plt.title(f"Condition vector: {label_vec.tolist()}")
-plt.axis('off')
-plt.show()
+# #Show image
+# plt.imshow(img_np, cmap='gray' if img_np.ndim == 2 else None)
+# plt.title(f"Condition vector: {label_vec.nonzero(as_tuple=True)[0].tolist()}")
+# plt.axis('off')
+# plt.show()
 
-# Print shape info
-print("Image shape:", img_tensor.shape)
-print("Condition vector:", label_vec)
-print("Nonzero labels:", torch.nonzero(label_vec).squeeze().tolist())
+# # Confirm shapes and lables
+# print("Image shape:", img.shape)
+# print("Label vector:", label_vec)
