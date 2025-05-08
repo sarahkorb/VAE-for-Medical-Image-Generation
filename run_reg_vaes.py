@@ -81,16 +81,17 @@ config = {
     'CVAE': {
         'model_params': {
             'name': 'CVAE',
-            'in_channels': 1,
-            'latent_dim': 128
+            'in_channels': 3,
+            'latent_dim': 128,
+            'num_classes': 15 
         },
         'data_params': {
             'data_path': "Data/",
-            'train_batch_size': 64,
+            'train_batch_size': 4, #change to 64 for GPU
             'val_batch_size':  64,
             'patch_size': 64,
             'data_name': 'femchestxrays',
-            'num_workers': 4,
+            'num_workers': 0, #change to 4 
         },
         'exp_params': {
             'LR': 0.005,
@@ -100,7 +101,7 @@ config = {
             'manual_seed': 1265
         },
         'trainer_params': {
-            'max_epochs': 3 #for now
+            'max_epochs': 1 #for now
         },
         'logging_params': {
             'save_dir': "logs/",
@@ -149,7 +150,9 @@ runner = Trainer(logger=tb_logger,
                                      monitor= "val_loss",
                                      save_last= True),
                  ],
-                 strategy='ddp_notebook',
+                 accelerator='cpu', #remove for COLAB!!! 
+                #  strategy='ddp_notebook',
+                 strategy='auto',
                  **config[MODEL]['trainer_params'])
 
 

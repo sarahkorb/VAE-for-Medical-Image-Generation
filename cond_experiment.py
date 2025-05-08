@@ -32,34 +32,34 @@ class CVAEXperiment(pl.LightningModule):
     def forward(self, input: Tensor, labels: Tensor, **kwargs) -> Tensor:
         return self.model(input, labels, **kwargs)
 
-    def training_step(self, batch, batch_idx, optimizer_idx = 0):
+    def training_step(self, batch, batch_idx):
         real_img, labels = batch
         self.curr_device = real_img.device
 
         results = self.forward(real_img, labels)
         train_loss = self.model.loss_function(*results,
                                               M_N=self.params['kld_weight'],
-                                              optimizer_idx=optimizer_idx,
+                
                                               batch_idx=batch_idx)
 
         self.log_dict({key: val.item() for key, val in train_loss.items()}, sync_dist=True)
         
         return train_loss['loss']
 
-    def validation_step(self, batch, batch_idx,  optimizer_idx = 0):
+    def validation_step(self, batch, batch_idx):
         real_img, labels = batch
         self.curr_device = real_img.device
 
         results = self.forward(real_img, labels)
         val_loss = self.model.loss_function(*results,
                                             M_N=1.0,
-                                            optimizer_idx = optimizer_idx,
                                             batch_idx=batch_idx)
 
         self.log_dict({f"val_{key}": val.item() for key, val in val_loss.items()}, sync_dist=True)
 
     def on_validation_end(self) -> None:
         self.sample_images()
+        
 
     def sample_images(self):
         # Get sample reconstruction image     

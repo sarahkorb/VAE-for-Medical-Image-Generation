@@ -294,7 +294,7 @@ class VAEDataset(LightningDataModule):
                 transforms.RandomHorizontalFlip(),
                 transforms.Resize(self.patch_size),
                 transforms.ToTensor(),
-                transforms.Normalize((0.5,), (0.5,))
+                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
             ])
             
             # if stage == "train" or stage is None:
