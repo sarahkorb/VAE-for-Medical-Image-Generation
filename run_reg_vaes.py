@@ -86,14 +86,16 @@ config = {
         'model_params': {
             'name': 'CVAE',
             'in_channels': 3,
-            'latent_dim': 128,
+            # 'latent_dim': 128,
+            'latent_dim' : 256,
             'num_classes': 15 
         },
         'data_params': {
             'data_path': "/content/drive/MyDrive/NNDL/Project/Image_Data/", #Change for Colab!
+            # 'data_path': "Data/",
             'train_batch_size': 64, #change to 64 for GPU
             'val_batch_size':  64,
-            'patch_size': 64,
+            'patch_size': 128,
             'data_name': 'femchestxrays',
             'num_workers': 4, #change to 4?
         },
@@ -105,10 +107,11 @@ config = {
             'manual_seed': 1265
         },
         'trainer_params': {
-            'max_epochs': 50 #for now
+            'max_epochs': 100 #for now
         },
         'logging_params': {
             'save_dir': "/content/drive/MyDrive/NNDL/Project/Image_Data/logs/",
+            # 'save_dir': "logs/",
             'name': "CVAE"      
         }
         }
@@ -153,7 +156,7 @@ runner = Trainer(logger=tb_logger,
                                      dirpath =os.path.join(tb_logger.log_dir , "checkpoints"),
                                      monitor= "val_loss",
                                      save_last= True),
-                    EarlyStopping(monitor="val_loss", patience=5, mode="min", verbose=True)
+                    EarlyStopping(monitor="val_loss", patience=10, mode="min", verbose=True)
                  ],
                  accelerator='gpu', #remove for COLAB!!! 
                  devices=1,
