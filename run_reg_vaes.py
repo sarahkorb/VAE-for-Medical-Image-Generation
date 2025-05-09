@@ -86,12 +86,12 @@ config = {
             'num_classes': 15 
         },
         'data_params': {
-            'data_path': "Data/", #Change for Colab!
-            'train_batch_size': 4, #change to 64 for GPU
+            'data_path': "/content/drive/MyDrive/NNDL/Project/Image_Data/", #Change for Colab!
+            'train_batch_size': 64, #change to 64 for GPU
             'val_batch_size':  64,
             'patch_size': 64,
             'data_name': 'femchestxrays',
-            'num_workers': 0, #change to 4 
+            'num_workers': 0, #change to 4?
         },
         'exp_params': {
             'LR': 0.005,
@@ -101,7 +101,7 @@ config = {
             'manual_seed': 1265
         },
         'trainer_params': {
-            'max_epochs': 1 #for now
+            'max_epochs': 15 #for now
         },
         'logging_params': {
             'save_dir': "logs/",
@@ -150,9 +150,10 @@ runner = Trainer(logger=tb_logger,
                                      monitor= "val_loss",
                                      save_last= True),
                  ],
-                 accelerator='cpu', #remove for COLAB!!! 
-                #  strategy='ddp_notebook',
-                 strategy='auto',
+                 accelerator='gpu', #remove for COLAB!!! 
+                 devices=1,
+                 strategy='ddp_notebook',
+                #  strategy='auto',
                  **config[MODEL]['trainer_params'])
 
 
