@@ -19,6 +19,7 @@ from pytorch_lightning.strategies import DDPStrategy
 import torch
 
 torch.set_float32_matmul_precision("high") #for GPU
+from pytorch_lightning.callbacks.early_stopping import EarlyStopping
 
 #Change these config parameters accordingly
 config = {
@@ -104,7 +105,7 @@ config = {
             'manual_seed': 1265
         },
         'trainer_params': {
-            'max_epochs': 15 #for now
+            'max_epochs': 50 #for now
         },
         'logging_params': {
             'save_dir': "/content/drive/MyDrive/NNDL/Project/Image_Data/logs/",
@@ -152,6 +153,7 @@ runner = Trainer(logger=tb_logger,
                                      dirpath =os.path.join(tb_logger.log_dir , "checkpoints"),
                                      monitor= "val_loss",
                                      save_last= True),
+                    EarlyStopping(monitor="val_loss", patience=5, mode="min", verbose=True)
                  ],
                  accelerator='gpu', #remove for COLAB!!! 
                  devices=1,
