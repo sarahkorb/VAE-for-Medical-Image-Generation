@@ -15,6 +15,7 @@ import pandas as pd
 from torchvision import transforms
 from torch.utils.data import DataLoader
 from pytorch_lightning import LightningDataModule
+import json
 
 
 import random
@@ -58,6 +59,11 @@ class FemaleChestXrayDataset(Dataset):
             'Pneumothorax', 'No Finding'
         ]
         self.finding_to_index = {label: i for i, label in enumerate(self.finding_vocab)}
+
+        mapping_path = Path(data_path) / "finding_to_index.json" #save mapping for later! 
+        if not mapping_path.exists():
+            with open(mapping_path, 'w') as f:
+                json.dump(self.finding_to_index, f, indent=4)
 
     def __len__(self):
         return len(self.metadata)

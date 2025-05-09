@@ -86,7 +86,7 @@ config = {
             'num_classes': 15 
         },
         'data_params': {
-            'data_path': "Data/",
+            'data_path': "Data/", #Change for Colab!
             'train_batch_size': 4, #change to 64 for GPU
             'val_batch_size':  64,
             'patch_size': 64,
