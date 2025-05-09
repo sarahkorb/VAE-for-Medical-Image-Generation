@@ -324,6 +324,7 @@ class VAEDataset(LightningDataModule):
             num_workers=self.num_workers,
             shuffle=True,
             pin_memory=self.pin_memory,
+            persistent_workers=self.num_workers > 0,
         )
 
     def val_dataloader(self) -> Union[DataLoader, List[DataLoader]]:

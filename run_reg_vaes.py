@@ -16,6 +16,9 @@ from pytorch_lightning import seed_everything
 from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
 from dataset import VAEDataset
 from pytorch_lightning.strategies import DDPStrategy
+import torch
+
+torch.set_float32_matmul_precision("high") #for GPU
 
 #Change these config parameters accordingly
 config = {
@@ -91,7 +94,7 @@ config = {
             'val_batch_size':  64,
             'patch_size': 64,
             'data_name': 'femchestxrays',
-            'num_workers': 0, #change to 4?
+            'num_workers': 4, #change to 4?
         },
         'exp_params': {
             'LR': 0.005,
@@ -104,7 +107,7 @@ config = {
             'max_epochs': 15 #for now
         },
         'logging_params': {
-            'save_dir': "logs/",
+            'save_dir': "/content/drive/MyDrive/NNDL/Project/Image_Data/logs/",
             'name': "CVAE"      
         }
         }
@@ -152,8 +155,9 @@ runner = Trainer(logger=tb_logger,
                  ],
                  accelerator='gpu', #remove for COLAB!!! 
                  devices=1,
-                 strategy='ddp_notebook',
-                #  strategy='auto',
+                #  strategy='ddp_notebook',
+                 log_every_n_steps=10,
+                 strategy='auto',
                  **config[MODEL]['trainer_params'])
 
 
