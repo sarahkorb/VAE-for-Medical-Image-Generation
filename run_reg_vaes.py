@@ -86,8 +86,8 @@ config = {
         'model_params': {
             'name': 'CVAE',
             'in_channels': 3,
-            # 'latent_dim': 128,
-            'latent_dim' : 256,
+            'latent_dim': 128,
+            # 'latent_dim' : 256,
             'num_classes': 15 
         },
         'data_params': {
@@ -95,7 +95,7 @@ config = {
             # 'data_path': "Data/",
             'train_batch_size': 64, #change to 64 for GPU
             'val_batch_size':  64,
-            'patch_size': 128,
+            'patch_size': 64,
             'data_name': 'femchestxrays',
             'num_workers': 4, #change to 4?
         },
